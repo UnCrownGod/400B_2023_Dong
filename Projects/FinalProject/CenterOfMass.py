@@ -84,7 +84,7 @@ class CenterOfMass:
         return a_com, b_com, c_com
     
     
-    def COM_P(self, delta, volDec):
+    def COM_P(self, delta):
         '''Method to compute the position of the center of mass of the galaxy 
         using the shrinking-sphere method.
 
@@ -92,9 +92,7 @@ class CenterOfMass:
         ----------
         delta : `float`
             error tolerance in kpc. 
-        volDEC:  'float'
-            factor by which the radius of the sphere is decreased during 
-            each iteration
+        
         RETURNS
         ----------
         p_COM : `np.ndarray of astropy.Quantity'
@@ -123,8 +121,8 @@ class CenterOfMass:
         r_new = np.sqrt(x_new**2.0 + y_new**2.0 +z_new**2.0)
 
         # find the max 3D distance of all particles from the guessed COM                                               
-        # HOWEWORK 6: will re-start at a reduced radius specified by input volDec
-        r_max = max(r_new)/volDec
+        # will re-start at half that radius (reduced radius)                                                           
+        r_max = max(r_new)/2.0
         
         # pick an initial value for the change in COM position                                                      
         # between the first guess above and the new one computed from half that volume
@@ -246,7 +244,6 @@ class CenterOfMass:
         # set the correct units using astropy
         # round all values
         return np.round(v_COM, 2)*u.km/u.s
-    
     
 
 
